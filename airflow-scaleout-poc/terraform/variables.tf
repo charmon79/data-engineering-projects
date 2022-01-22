@@ -1,3 +1,12 @@
+### locals
+locals {
+  azs = {
+    a = "${var.aws_region}a"
+    b = "${var.aws_region}b"
+    c = "${var.aws_region}c"
+  }
+}
+
 ### variables
 variable "aws_auth" {
   type = object(
