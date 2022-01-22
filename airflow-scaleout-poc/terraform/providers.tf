@@ -12,4 +12,7 @@ provider "aws" {
   region     = var.aws_region
   access_key = var.aws_auth.access_key
   secret_key = var.aws_auth.secret_key
+  default_tags {
+    tags = var.default_tags
+  }
 }
