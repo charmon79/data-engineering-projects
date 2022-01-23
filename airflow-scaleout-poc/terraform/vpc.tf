@@ -92,6 +92,11 @@ resource "aws_route_table_association" "rta_airflow_subnet" {
   route_table_id = aws_route_table.routes.id
 }
 
+# resource "aws_route_table_association" "rta_bastion_subnet" {
+#   subnet_id      = aws_subnet.bastion_subnet_aza.id
+#   route_table_id = aws_route_table.routes.id
+# }
+
 ### security groups
 resource "aws_security_group" "bastion_sg" {
   name        = "bastion_sg"
@@ -103,7 +108,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["136.34.64.32/32"]
+    cidr_blocks = var.allowed_internet_cidrs
   }
 
   ingress {

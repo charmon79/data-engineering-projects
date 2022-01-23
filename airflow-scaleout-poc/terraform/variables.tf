@@ -37,3 +37,7 @@ variable "default_tags" {
     Purpose     = "Demonstrating a scale-out deployment of Apache Airflow"
   }
 }
+
+variable "allowed_internet_cidrs" {
+  type = list(string)
+}
