@@ -1,0 +1,6 @@
+### EC2 key pairs
+
+resource "aws_key_pair" "aws_sandbox" {
+  key_name   = "aws_sandbox"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC+31ruO3mes2lXx8GGdVhPQUFPsF6xVxMWqSUI1RSq7lN9nkNdOE1SmMl4Qyps2No3a8S9yLX6oXMCwf70/w+PQ7tkWsIWnWhvGw3lQM88ffZxg2Xz0Y0M0cWAgGFArvMx6nAZgH17nfvKUn/R/zaf0/MNXo2cqu/hUmDrg8SMK/pu+LKqoWxIogftmiPgoq+ZyX4RnzAblr93HHrlgBWRSbAk/VAot6kUye93UuJz5EiVgExvnOfYCIN/R7vNmnc2Em8PQnI4jftV95BTA+ZdzFVSvEpuKRH3sG5QLcFOjyw/MizYgtEcgy/P3I1J5gUDC6HRhUVa2aa/Ug2zFdqvCmDGZ+zMiVfBceqWLLVX8NaPw1O7GQ80DWig/kNXke6K7COMVMqDJE1XvOIGmaOBrWM8nYfeD8EUJr1JJwv0h3qnPHEQgxjWIxrTb7YPI3Hjktdf7BlPObbI7eqhh2sVJVK31OsTiMFIO1w218sUvroyAZAU7Ur0G4vG/VBWkj0= charmon@heisenberg.local"
+}
