@@ -73,29 +73,43 @@ resource "aws_nat_gateway" "nat_gw" {
 }
 
 ### routing
-resource "aws_route_table" "routes" {
+resource "aws_route_table" "private_routes" {
   vpc_id = aws_vpc.airflow_demo_vpc.id
 
-  # internet gateway 
+  # NAT gateway 
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.nat_gw.id
   }
 
   tags = {
-    Name = "airflow_demo_routes"
+    Name = "airflow_demo_private_routes"
+  }
+}
+
+resource "aws_route_table" "public_routes" {
+  vpc_id = aws_vpc.airflow_demo_vpc.id
+
+  # Internet gateway 
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet_gw.id
+  }
+
+  tags = {
+    Name = "airflow_demo_public_routes"
   }
 }
 
 resource "aws_route_table_association" "rta_airflow_subnet" {
   subnet_id      = aws_subnet.airflow_subnet_aza.id
-  route_table_id = aws_route_table.routes.id
+  route_table_id = aws_route_table.private_routes.id
 }
 
-# resource "aws_route_table_association" "rta_bastion_subnet" {
-#   subnet_id      = aws_subnet.bastion_subnet_aza.id
-#   route_table_id = aws_route_table.routes.id
-# }
+resource "aws_route_table_association" "rta_bastion_subnet" {
+  subnet_id      = aws_subnet.bastion_subnet_aza.id
+  route_table_id = aws_route_table.public_routes.id
+}
 
 ### security groups
 resource "aws_security_group" "bastion_sg" {
