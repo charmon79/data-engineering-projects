@@ -38,9 +38,10 @@ resource "aws_subnet" "db_subnet_aza" {
 }
 
 resource "aws_subnet" "bastion_subnet_aza" {
-  vpc_id            = aws_vpc.airflow_demo_vpc.id
-  cidr_block        = "10.0.100.0/24"
-  availability_zone = local.azs.a
+  vpc_id                  = aws_vpc.airflow_demo_vpc.id
+  cidr_block              = "10.0.100.0/24"
+  availability_zone       = local.azs.a
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "bastion_subnet"
@@ -92,3 +93,35 @@ resource "aws_route_table_association" "rta_airflow_subnet" {
 }
 
 ### security groups
+resource "aws_security_group" "bastion_sg" {
+  name        = "bastion_sg"
+  description = "Allow public SSH from specific IPs inbound, and all traffic within VPC in/out"
+  vpc_id      = aws_vpc.airflow_demo_vpc.id
+
+  ingress {
+    description = "SSH from Internet"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["136.34.64.32/32"]
+  }
+
+  ingress {
+    description = "Internal VPC traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  tags = {
+    Name = "bastion_sg"
+  }
+}
